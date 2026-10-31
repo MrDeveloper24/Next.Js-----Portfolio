@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --animate-code-float: code-float 6s ease-in-out infinite;
+  --animate-code-line: code-line-in 0.42s ease-out forwards;
+  --animate-code-cursor: code-cursor-blink 1s steps(2, start) infinite;
+}
+
+:root {
+  color-scheme: dark;
+  --bg: #080b13;
+  --surface: #0d1220;
+  --surface-raised: #111829;
+  --surface-soft: #0b101b;
+  --line: #1e293e;
+  --line-bright: #2b3b59;
+  --text: #f3f6fc;
+  --text-soft: #c1cada;
+  --muted: #8793a8;
+  --blue: #7895ff;
+  --blue-bright: #91a8ff;
+  --green: #73dfb7;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f6fa;
+  --surface: #fff;
+  --surface-raised: #fff;
+  --surface-soft: #eef2f8;
+  --line: #d9e0eb;
+  --line-bright: #c1cde0;
+  --text: #19243a;
+  --text-soft: #34445e;
+  --muted: #5d6d83;
+  --blue: #4b67cb;
+  --blue-bright: #455fbe;
+  --green: #248663;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 92px;
+  }
+
+  body {
+    margin: 0;
+    color: var(--text);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(#25304713 1px, transparent 1px),
+      linear-gradient(90deg, #25304713 1px, transparent 1px);
+    background-size: 38px 38px;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--blue-bright);
+    outline-offset: 4px;
+  }
+
+  input,
+  textarea,
+  select {
+    color: var(--text);
+    border: 1px solid var(--line);
+    background: var(--surface-soft);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted);
+  }
+}
+
+@keyframes code-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes code-cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes code-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@media (max-width: 650px) {
+  html {
+    scroll-padding-top: 70px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
