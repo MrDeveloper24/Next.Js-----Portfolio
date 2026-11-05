@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { profile } from "../portfolio-data";
 
@@ -13,25 +13,38 @@ const navigation = [
   ["Contact", "/#contact"],
 ];
 
+function subscribeToTheme(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener("portfolio-theme-change", onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener("portfolio-theme-change", onChange);
+  };
+}
+
+function getSavedTheme(): "dark" | "light" {
+  return window.localStorage.getItem("portfolio-theme") === "light"
+    ? "light"
+    : "dark";
+}
+
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const theme = useSyncExternalStore(subscribeToTheme, getSavedTheme, () => "dark");
   const [scrolled, setScrolled] = useState(false);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const navigationRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem("portfolio-theme");
-    if (savedTheme === "dark" || savedTheme === "light") {
-      setTheme(savedTheme);
-      document.documentElement.dataset.theme = savedTheme;
-    }
-
     const updateScrollState = () => setScrolled(window.scrollY > 24);
     updateScrollState();
     window.addEventListener("scroll", updateScrollState, { passive: true });
     return () => window.removeEventListener("scroll", updateScrollState);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -64,9 +77,8 @@ export function SiteHeader() {
 
   function toggleTheme() {
     const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    document.documentElement.dataset.theme = nextTheme;
     window.localStorage.setItem("portfolio-theme", nextTheme);
+    window.dispatchEvent(new Event("portfolio-theme-change"));
   }
 
   return (

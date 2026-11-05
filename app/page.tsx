@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteHeader } from "./components/site-header";
@@ -176,13 +176,13 @@ function Hero() {
           >
             View my work <Arrow />
           </Link>
-          <Link
+          <a
             className={`group ${buttonClass} ${secondaryButtonClass}`}
             href="/Muhammad-Naseem-Barkat-CV.pdf"
             download
           >
             Resume <Arrow diagonal />
-          </Link>
+          </a>
         </div>
         <div className="mt-12 grid max-w-[610px] grid-cols-3 gap-6 border-t border-[var(--line)] pt-[27px] max-[650px]:mt-8 max-[650px]:gap-4">
           {[
@@ -219,42 +219,42 @@ function Hero() {
           </div>
           <div className="overflow-x-auto px-[22px] py-[25px] font-mono text-[14px] leading-[2.1] text-[#d3d9e5] max-[650px]:px-3 max-[650px]:py-[18px] max-[650px]:text-[11px]">
             {[
-              <>
+              <Fragment key="developer">
                 <span className="text-[#d18bff]">const</span>{" "}
                 <span className="text-[#7db4ff]">developer</span> = &#123;
-              </>,
-              <>
+              </Fragment>,
+              <Fragment key="name">
                 <span className="text-[#9aafff]">name</span>:{" "}
                 <span className="text-[#72dfb7]">
                   &apos;{profile.name}&apos;
                 </span>
                 ,
-              </>,
-              <>
+              </Fragment>,
+              <Fragment key="skills">
                 <span className="text-[#9aafff]">skills</span>: [
                 <span className="text-[#72dfb7]">&apos;React&apos;</span>,{" "}
                 <span className="text-[#72dfb7]">&apos;Next.js&apos;</span>,{" "}
                 <span className="text-[#72dfb7]">&apos;TypeScript&apos;</span>],
-              </>,
-              <>
+              </Fragment>,
+              <Fragment key="experience">
                 <span className="text-[#9aafff]">experience</span>:{" "}
                 <span className="text-[#72dfb7]">
                   &apos;Internship experience&apos;
                 </span>
                 ,
-              </>,
-              <>
+              </Fragment>,
+              <Fragment key="passion">
                 <span className="text-[#9aafff]">passion</span>:{" "}
                 <span className="text-[#72dfb7]">
                   &apos;Building amazing UIs&apos;
                 </span>
-              </>,
-              <>
+              </Fragment>,
+              <Fragment key="ending">
                 &#125;;{" "}
                 <i className="inline-block h-[15px] w-[7px] animate-code-cursor bg-[var(--blue-bright)] align-middle" />
-              </>,
-              <span className="text-[#7d8ca5]">
-                // Ready to build something great ✨
+              </Fragment>,
+              <span className="text-[#7d8ca5]" key="comment">
+                {"// Ready to build something great ✨"}
               </span>,
             ].map((line, index) => (
               <div
@@ -294,14 +294,15 @@ function About() {
     >
       <figure className="m-0 flex w-[min(76vw,320px)] flex-col items-center gap-4 justify-self-center">
         <div className="aspect-square w-full rounded-full border border-[var(--line-bright)] bg-[var(--surface)] p-2 shadow-[0_24px_60px_#0004]">
-          <Image
-            src="/muhammad-naseem-barkat.jpeg"
-            alt="Muhammad Naseem Barkat"
-            width={960}
-            height={1280}
-            sizes="(max-width: 650px) 76vw, 320px"
-            className="h-full w-full rounded-full object-cover object-[center_17%]"
-          />
+          <div className="relative h-full w-full overflow-hidden rounded-full">
+            <Image
+              src="/muhammad-naseem-barkat.jpeg"
+              alt="Muhammad Naseem Barkat"
+              fill
+              sizes="(max-width: 650px) 76vw, 320px"
+              className="object-cover object-[center_17%]"
+            />
+          </div>
         </div>
         <figcaption className="text-center">
           <span className="block font-mono text-[10px] uppercase tracking-[0.12em] text-[#aabcf5]">
