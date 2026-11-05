@@ -23,14 +23,14 @@ function subscribeToTheme(onChange: () => void) {
 }
 
 function getSavedTheme(): "dark" | "light" {
-  return window.localStorage.getItem("portfolio-theme") === "light"
-    ? "light"
-    : "dark";
+  return window.localStorage.getItem("portfolio-theme") === "dark"
+    ? "dark"
+    : "light";
 }
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const theme = useSyncExternalStore(subscribeToTheme, getSavedTheme, () => "dark");
+  const theme = useSyncExternalStore(subscribeToTheme, getSavedTheme, () => "light");
   const [scrolled, setScrolled] = useState(false);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const navigationRef = useRef<HTMLElement>(null);
